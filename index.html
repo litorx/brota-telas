@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="As telas do app Brota em iOS e Android, com as animações da planta.">
+<meta name="robots" content="noindex">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Telas do Brota</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: a gallery that reads like the app itself — cream paper, blush accent, each screen standing in its own phone,
+   flows in the order she lives them, one sticky bar to jump between flows and switch platform. */
+:root {
+  --bg: #FFF8F2;          /* --bg-primary */
+  --card: #FFFFFF;        /* --bg-card */
+  --ink: #3D2C2E;         /* --text-primary */
+  --muted: #8A7678;       /* --text-secondary, a step darker for AA on cream */
+  --blush: #F4A7B9;       /* --brand-real */
+  --blush-deep: #C4627A;  /* text-safe blush */
+  --mint: #7DD4A3;        /* --brand-correct */
+  --line: rgba(61, 44, 46, 0.10);
+  --phone: #2B2022;
+  --chip: rgba(61, 44, 46, 0.05);
+  --chip-on: #3D2C2E;
+  --chip-on-ink: #FFF8F2;
+  --glow: rgba(244, 167, 185, 0.28);
+  --scrim: rgba(43, 32, 34, 0.72);
+  --blob-1: #D9C8F0; --blob-2: #FBD3DC; --blob-3: #CDEEDC; --blob-4: #FFE3B8; --blob-o: .75;
+  --font-ui: "Nunito", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  --font-voice: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1F1718; --blob-1: #4A3A66; --blob-2: #5C2F3D; --blob-3: #24473A; --blob-4: #5A4426; --blob-o: .55; --card: #2A2021; --ink: #F6E9E3; --muted: #BBA7A9; --blush: #F4A7B9; --blush-deep: #F4A7B9;
+    --mint: #7DD4A3; --line: rgba(246, 233, 227, 0.12); --phone: #0E0A0B; --chip: rgba(246, 233, 227, 0.07);
+    --chip-on: #F6E9E3; --chip-on-ink: #1F1718; --glow: rgba(244, 167, 185, 0.16); --scrim: rgba(10, 6, 7, 0.82);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1F1718; --blob-1: #4A3A66; --blob-2: #5C2F3D; --blob-3: #24473A; --blob-4: #5A4426; --blob-o: .55; --card: #2A2021; --ink: #F6E9E3; --muted: #BBA7A9; --blush: #F4A7B9; --blush-deep: #F4A7B9;
+  --mint: #7DD4A3; --line: rgba(246, 233, 227, 0.12); --phone: #0E0A0B; --chip: rgba(246, 233, 227, 0.07);
+  --chip-on: #F6E9E3; --chip-on-ink: #1F1718; --glow: rgba(244, 167, 185, 0.16); --scrim: rgba(10, 6, 7, 0.82);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; position: relative; }
+/* the app's own blob backgrounds, at page scale: lavanda, blush, menta and pêssego, soft and fixed */
+.atmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.atmos i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: var(--blob-o); }
+.atmos i:nth-child(1) { width: 58vmax; height: 58vmax; left: -18vmax; top: -22vmax; background: var(--blob-1); }
+.atmos i:nth-child(2) { width: 46vmax; height: 46vmax; right: -16vmax; top: 8vh; background: var(--blob-2); }
+.atmos i:nth-child(3) { width: 52vmax; height: 52vmax; left: -10vmax; bottom: -26vmax; background: var(--blob-3); }
+.atmos i:nth-child(4) { width: 36vmax; height: 36vmax; right: 6vmax; bottom: -12vmax; background: var(--blob-4); }
+body > *:not(.atmos):not(.viewer) { position: relative; z-index: 1; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* hero */
+.hero { padding-block: 56px 28px; display: grid; gap: 28px; }
+.eyebrow { font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--blush-deep); }
+.hero h1 { margin: 0; font-family: var(--font-voice); font-style: italic; font-weight: 400; font-size: clamp(56px, 11vw, 112px); line-height: .9; letter-spacing: -.01em; }
+.hero p { margin: 0; max-width: 34em; font-size: 18px; color: var(--muted); text-wrap: pretty; }
+.hero p em { font-family: var(--font-voice); font-size: 1.2em; color: var(--ink); }
+.plants { display: flex; gap: clamp(4px, 2vw, 22px); align-items: flex-end; flex-wrap: wrap; }
+.plants figure { margin: 0; display: grid; justify-items: center; gap: 2px; }
+.plants img { width: clamp(64px, 13vw, 128px); height: auto; aspect-ratio: 140 / 175; filter: drop-shadow(0 10px 18px var(--glow)); }
+.plants figcaption { font-family: var(--font-voice); font-style: italic; font-size: 17px; color: var(--muted); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.facts b { color: var(--ink); font-weight: 800; }
+
+/* sticky bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; gap: 12px; padding-block: 10px; }
+.jump { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.jump::-webkit-scrollbar { display: none; }
+.jump a { flex: none; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 13px; padding: 7px 12px; border-radius: 999px; background: var(--chip); white-space: nowrap; }
+.jump a:hover, .jump a:focus-visible { background: var(--glow); }
+.seg { flex: none; display: inline-flex; padding: 3px; border-radius: 999px; background: var(--chip); }
+.seg button { font: inherit; font-weight: 800; font-size: 13px; border: 0; background: transparent; color: var(--muted); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }
+
+/* flows */
+.flow { padding-block: 48px 8px; scroll-margin-top: 64px; }
+.flow header { display: grid; gap: 4px; margin-bottom: 22px; }
+.flow h2 { margin: 0; font-family: var(--font-voice); font-style: italic; font-weight: 400; font-size: clamp(32px, 5vw, 44px); line-height: 1.05; text-wrap: balance; }
+.flow header p { margin: 0; color: var(--muted); }
+.flow .count, .motion .count { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--blush-deep); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr)); gap: 30px 22px; }
+
+.screen { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.device { position: relative; display: block; width: 100%; padding: 7px; border-radius: 30px; background: var(--phone); box-shadow: 0 14px 30px -18px rgba(43, 32, 34, .55); border: 0; cursor: zoom-in; }
+.device:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
+.device .glass { display: block; border-radius: 23px; overflow: hidden; background: var(--card); aspect-ratio: var(--ar, 0.5); }
+.device img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.device.android { border-radius: 26px; }
+.device.android .glass { border-radius: 19px; }
+.screen h3 { margin: 0; font-size: 15px; font-weight: 800; line-height: 1.25; }
+.states { display: flex; flex-wrap: wrap; gap: 5px; }
+.states button { font: inherit; font-size: 12px; font-weight: 700; color: var(--muted); background: var(--chip); border: 0; border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.states button[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }
+.states button:focus-visible, .seg button:focus-visible, .jump a:focus-visible { outline: 2px solid var(--blush); outline-offset: 2px; }
+
+/* animations */
+.motion { padding-block: 40px 8px; scroll-margin-top: 64px; }
+.motion header { display: grid; gap: 4px; margin-bottom: 22px; }
+.motion h2 { margin: 0; font-family: var(--font-voice); font-style: italic; font-weight: 400; font-size: clamp(32px, 5vw, 44px); line-height: 1.05; }
+.motion header p { margin: 0; color: var(--muted); max-width: 40em; }
+.reel { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 30px 22px; }
+.clip { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.clip .device { cursor: default; }
+.clip .device:hover { transform: none; }
+.clip video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; background: var(--card); }
+.clip h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.clip p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+footer { padding-block: 56px 40px; color: var(--muted); font-size: 13px; }
+
+/* viewer */
+.viewer { position: fixed; inset: 0; z-index: 20; background: var(--scrim); display: grid; grid-template-columns: auto minmax(0, 420px) auto; justify-content: center; align-items: center; gap: 14px;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.viewer { grid-template-rows: minmax(0, 1fr); }
+.viewer .panel { align-self: stretch; display: grid; gap: 10px; max-height: 920px; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; }
+.viewer .nav.side { align-self: center; }
+.viewer .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: #FFF8F2; }
+.viewer .top b { font-size: 16px; }
+.viewer .top span { font-size: 12px; opacity: .8; font-variant-numeric: tabular-nums; }
+.viewer .phone { background: #0E0A0B; padding: 8px; border-radius: 34px; min-height: 0; display: flex; }
+.viewer .scroll { overflow-y: auto; border-radius: 26px; background: #FFF8F2; width: 100%; overscroll-behavior: contain; }
+.viewer .scroll img { display: block; width: 100%; height: auto; }
+.viewer .states button { background: rgba(255, 248, 242, .14); color: #FFF8F2; }
+.viewer .states button[aria-pressed="true"] { background: #FFF8F2; color: #3D2C2E; }
+.nav { font: inherit; font-size: 26px; line-height: 1; width: 48px; height: 48px; border-radius: 50%; border: 0; background: rgba(255, 248, 242, .14); color: #FFF8F2; cursor: pointer; }
+.nav:hover, .nav:focus-visible { background: rgba(255, 248, 242, .28); outline: none; }
+.close { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 560px) {
+  .viewer { grid-template-columns: minmax(0, 1fr); }
+  .viewer .nav.side { display: none; }
+  .viewer .swipe-hint { display: block; }
+}
+.swipe-hint { display: none; color: #FFF8F2; opacity: .7; font-size: 12px; text-align: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .device { transition: transform .35s cubic-bezier(.32, .72, 0, 1); }
+  .device:hover { transform: translateY(-4px); }
+}
+</style>
+</head>
+<body>
+
+<div class="atmos" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<section class="wrap hero">
+  <div class="eyebrow">Mockup · iOS e Android</div>
+  <h1>Brota</h1>
+  <p>Um app para quem sai das redes se sentindo menor. Uma planta acompanha você, protege nos momentos de comparação e cresce junto, <em>sem nunca cobrar, sem nunca culpar.</em></p>
+  <div class="plants" aria-label="As cinco plantas, florescendo">
+    <figure><img src="art/lavanda.svg" alt="Lavanda, feliz"><figcaption>Lavanda</figcaption></figure>
+    <figure><img src="art/girassol.svg" alt="Girassol, feliz"><figcaption>Girassol</figcaption></figure>
+    <figure><img src="art/cacto.svg" alt="Cacto, feliz"><figcaption>Cacto</figcaption></figure>
+    <figure><img src="art/cerejeira.svg" alt="Cerejeira, feliz"><figcaption>Cerejeira</figcaption></figure>
+    <figure><img src="art/lotus.svg" alt="Lótus, feliz"><figcaption>Lótus</figcaption></figure>
+  </div>
+  <div class="facts" id="facts"></div>
+</section>
+
+<nav class="bar" aria-label="Fluxos">
+  <div class="wrap">
+    <div class="jump" id="jump"></div>
+    <div class="seg" role="group" aria-label="Plataforma">
+      <button type="button" id="p-ios" data-p="ios" aria-pressed="true">iOS</button>
+      <button type="button" id="p-android" data-p="android" aria-pressed="false">Android</button>
+    </div>
+  </div>
+</nav>
+
+<section class="wrap motion" id="animacoes">
+  <header><span class="count">12 animações · iOS</span><h2>A planta em movimento</h2><p>A personagem nunca fica parada. Estes são os momentos principais, gravados das telas como elas se mexem.</p></header>
+  <div class="reel" id="reel"></div>
+</section>
+
+<main class="wrap" id="flows"></main>
+
+<footer class="wrap">Telas desenhadas para iOS 26 (Liquid Glass) e Android (Material 3 Expressive). Toque em uma tela para ver a página inteira; use as setas ou deslize para passar.</footer>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="v-name">
+  <button class="nav side" id="v-prev" type="button" aria-label="Tela anterior">‹</button>
+  <div class="panel">
+    <div class="top"><b id="v-name"></b><span id="v-pos"></span></div>
+    <div class="phone"><div class="scroll" id="v-scroll"><img id="v-img" alt=""></div></div>
+    <div>
+      <div class="states" id="v-states"></div>
+      <div class="swipe-hint">Deslize para os lados para passar de tela</div>
+    </div>
+  </div>
+  <button class="nav side" id="v-next" type="button" aria-label="Próxima tela">›</button>
+  <button class="nav close" id="v-close" type="button" aria-label="Fechar">×</button>
+</div>
+
+<script>
+const DATA = [{"id": "onboarding", "title": "Primeiros passos", "sub": "Do primeiro toque à escolha da planta e ao plano dela.", "screens": [{"id": "00-splash", "name": "Abertura", "states": [{"id": "carregando", "label": "Carregando", "ratio": 2.1932}, {"id": "pronta", "label": "Pronta", "ratio": 2.1932}]}, {"id": "01-boasvindas", "name": "Boas-vindas", "states": [{"id": "beat-1", "label": "Parte 1", "ratio": 2.1932}, {"id": "beat-2", "label": "Parte 2", "ratio": 2.1932}, {"id": "completa", "label": "Completa", "ratio": 2.1932}]}, {"id": "02-hook", "name": "O que te trouxe", "states": [{"id": "selecionada", "label": "Selecionada", "ratio": 2.1932}, {"id": "sem-selecao", "label": "Sem seleção", "ratio": 2.1932}]}, {"id": "03-nome", "name": "Seu nome", "states": [{"id": "as-vezes", "label": "Às vezes", "ratio": 2.1932}, {"id": "quero-entender", "label": "Quero entender", "ratio": 2.1932}, {"id": "sim-sempre", "label": "Sim, sempre", "ratio": 2.1932}]}, {"id": "04-redes", "name": "Suas redes", "states": [{"id": "selecionadas", "label": "Selecionadas", "ratio": 2.1932}, {"id": "sem-selecao", "label": "Sem seleção", "ratio": 2.1932}]}, {"id": "05-gatilhos", "name": "O que pesa", "states": [{"id": "selecionadas", "label": "Selecionadas", "ratio": 2.1932}, {"id": "sem-selecao", "label": "Sem seleção", "ratio": 2.1932}, {"id": "stat-tiktok", "label": "Dado TikTok", "ratio": 2.1932}]}, {"id": "06-tempo", "name": "Tempo de tela", "states": [{"id": "selecionada", "label": "Selecionada", "ratio": 2.1932}, {"id": "sem-selecao", "label": "Sem seleção", "ratio": 2.1932}, {"id": "stat-conquistas", "label": "Dado conquistas", "ratio": 2.1932}]}, {"id": "07-impacto", "name": "O impacto", "states": [{"id": "1h-a-2h", "label": "1 a 2 h", "ratio": 2.1932}, {"id": "2h-a-4h", "label": "2 a 4 h", "ratio": 2.1932}, {"id": "mais-de-4h", "label": "Mais de 4 h", "ratio": 2.1932}]}, {"id": "08-insights", "name": "O que a gente viu", "states": [{"id": "instagram-corpos-1-2h", "label": "Instagram corpos 1 a 2 h", "ratio": 2.1932}, {"id": "multiplas-vidas-4h", "label": "Múltiplas vidas 4h", "ratio": 2.1932}, {"id": "tiktok-popularidade-2-4h", "label": "TikTok popularidade 2 a 4 h", "ratio": 2.1932}]}, {"id": "09-planta", "name": "A planta aparece", "states": [{"id": "instagram-corpos-1-2h", "label": "Instagram corpos 1 a 2 h", "ratio": 2.1932}, {"id": "multiplas-vidas-4h", "label": "Múltiplas vidas 4h", "ratio": 2.1932}, {"id": "tiktok-popularidade-2-4h", "label": "TikTok popularidade 2 a 4 h", "ratio": 2.1932}]}, {"id": "10-brota", "name": "A semente brota", "states": [{"id": "lilas", "label": "Lilás", "ratio": 2.1932}, {"id": "rosa", "label": "Rosa", "ratio": 2.1932}, {"id": "verde-salvia", "label": "Verde sálvia", "ratio": 2.1932}]}, {"id": "11-arquetipo", "name": "Qual flor ela vai ser", "states": [{"id": "cacto", "label": "Cacto", "ratio": 2.1932}, {"id": "girassol", "label": "Girassol", "ratio": 2.1932}, {"id": "lavanda", "label": "Lavanda", "ratio": 2.1932}]}, {"id": "12-bonding", "name": "Primeiro contato", "states": [{"id": "cacto", "label": "Cacto", "ratio": 2.1932}, {"id": "cerejeira", "label": "Cerejeira", "ratio": 2.1932}, {"id": "girassol", "label": "Girassol", "ratio": 2.1932}]}, {"id": "13-horario", "name": "Horário de cuidar", "states": [{"id": "cacto", "label": "Cacto", "ratio": 2.1932}, {"id": "girassol", "label": "Girassol", "ratio": 2.1932}, {"id": "lavanda", "label": "Lavanda", "ratio": 2.1932}]}, {"id": "14a-ciclo-insight", "name": "Uma semana que pesa mais", "states": [{"id": "cacto", "label": "Cacto", "ratio": 2.1932}, {"id": "girassol", "label": "Girassol", "ratio": 2.1932}, {"id": "lavanda", "label": "Lavanda", "ratio": 2.1932}]}, {"id": "14b-ciclo-optin", "name": "Acompanhar o ciclo", "states": [{"id": "off", "label": "Desligado", "ratio": 2.1932}, {"id": "on-fase", "label": "Ligado, com fase", "ratio": 2.1932}, {"id": "on-nao-sei", "label": "Ligado, não sei", "ratio": 2.1932}]}, {"id": "15-goal", "name": "O que você quer", "states": [{"id": "escolhido", "label": "Escolhido", "ratio": 2.1932}, {"id": "nada-escolhido", "label": "Nada escolhido", "ratio": 2.1932}, {"id": "cacto", "label": "Cacto", "ratio": 2.1932}]}, {"id": "16-loading", "name": "Montando seu plano", "states": [{"id": "cacto", "label": "Cacto", "ratio": 2.0056}, {"id": "cerejeira", "label": "Cerejeira", "ratio": 2.0056}, {"id": "girassol", "label": "Girassol", "ratio": 2.0056}]}, {"id": "17-plano", "name": "Seu plano", "states": [{"id": "ciclo-desativado-o14b-off", "label": "Ciclo desativado", "ratio": 2.0056}, {"id": "ciclo-esperando-a-semana", "label": "Ciclo esperando a semana", "ratio": 2.0056}, {"id": "ciclo-nela-agora", "label": "Ciclo nela agora", "ratio": 2.0056}]}, {"id": "18-paywall-v2", "name": "Assinatura", "states": [{"id": "anual", "label": "Anual", "ratio": 5.0}, {"id": "com-depoimentos", "label": "Com depoimentos", "ratio": 5.0}, {"id": "mensal", "label": "Mensal", "ratio": 5.0}]}]}, {"id": "pos-paywall", "title": "Começo da jornada", "sub": "A planta nasce, a proteção é ligada e os lembretes combinados.", "screens": [{"id": "p1-momento", "name": "A planta nasce", "states": [{"id": "folicular", "label": "Folicular", "ratio": 1.9733}, {"id": "lutea", "label": "Lútea", "ratio": 1.9733}, {"id": "menstrual", "label": "Menstrual", "ratio": 1.9733}]}, {"id": "p2-shield-setup", "name": "Ligar a proteção", "states": [{"id": "apps-escolhidos", "label": "Apps escolhidos", "ratio": 2.0213}, {"id": "ativando-chave", "label": "Ativando chave", "ratio": 2.0213}, {"id": "ativando-lista", "label": "Ativando lista", "ratio": 2.0213}]}, {"id": "p3-push", "name": "Lembretes", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 1.9733}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 1.9733}, {"id": "girassol-bia", "label": "Girassol", "ratio": 1.9733}]}]}, {"id": "app", "title": "O app no dia a dia", "sub": "Início, Crescer, Jardim, Ciclo e Perfil.", "screens": [{"id": "a1-home", "name": "Início", "states": [{"id": "diario-manha", "label": "Diário manhã", "ratio": 2.608}, {"id": "fase-lutea", "label": "Fase lútea", "ratio": 2.5573}, {"id": "missao-inner-voice", "label": "Missão sua voz", "ratio": 2.608}]}, {"id": "a2-mirror", "name": "A proteção em ação", "states": [{"id": "ignorada-2x", "label": "Ignorada 2 vezes", "ratio": 1.9733}, {"id": "lembrete", "label": "Lembrete", "ratio": 1.9733}, {"id": "lutea", "label": "Lútea", "ratio": 1.9733}]}, {"id": "a3-feedcleanse", "name": "Limpar o feed", "states": [{"id": "dia-7", "label": "Dia 7", "ratio": 2.3547}, {"id": "dia-ativo", "label": "Dia ativo", "ratio": 2.448}, {"id": "dia-feito", "label": "Dia feito", "ratio": 2.176}]}, {"id": "a4-innervoice", "name": "Sua voz", "states": [{"id": "exercicios", "label": "Exercícios", "ratio": 2.3547}, {"id": "historico", "label": "Histórico", "ratio": 1.9733}, {"id": "historico-vazio", "label": "Histórico vazio", "ratio": 1.9733}]}, {"id": "a5-cycleshield", "name": "Ciclo", "states": [{"id": "folicular", "label": "Folicular", "ratio": 3.1333}, {"id": "lutea", "label": "Lútea", "ratio": 3.1333}, {"id": "menstrual", "label": "Menstrual", "ratio": 3.1333}]}, {"id": "a6-jardim", "name": "Jardim de todas", "states": [{"id": "circulo-da-lua", "label": "Círculo da lua", "ratio": 3.3573}, {"id": "geral", "label": "Geral", "ratio": 4.0267}, {"id": "recem-aberto", "label": "Recém aberto", "ratio": 2.7867}]}, {"id": "a7-pause", "name": "Respirar", "states": [{"id": "fim", "label": "Fim", "ratio": 1.9733}, {"id": "folicular-4-4-6", "label": "Folicular 4-4-6", "ratio": 1.9733}, {"id": "grounding", "label": "Aterrar", "ratio": 1.9733}]}, {"id": "a8-insights", "name": "Seus padrões", "states": [{"id": "duas-semanas", "label": "Duas semanas", "ratio": 4.3733}, {"id": "lutea", "label": "Lútea", "ratio": 4.36}, {"id": "menstrual", "label": "Menstrual", "ratio": 4.3573}]}, {"id": "a9-grow", "name": "Crescer", "states": [{"id": "completo", "label": "Completo", "ratio": 3.6213}, {"id": "dia-4", "label": "Dia 4", "ratio": 3.5093}, {"id": "lutea", "label": "Lútea", "ratio": 3.8053}]}, {"id": "a10-perfil", "name": "Perfil", "states": [{"id": "com-jornada", "label": "Com jornada", "ratio": 6.024}, {"id": "lutea", "label": "Lútea", "ratio": 6.024}, {"id": "modo-trabalho-ligado", "label": "Modo trabalho ligado", "ratio": 6.0293}]}, {"id": "a11-conquistas", "name": "Conquistas", "states": [{"id": "dia-1", "label": "Dia 1", "ratio": 1.9733}, {"id": "selos", "label": "Selos", "ratio": 1.9733}, {"id": "cacto-carol", "label": "Cacto", "ratio": 1.9733}]}, {"id": "a12-privacidade", "name": "Privacidade", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.824}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.824}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.824}]}, {"id": "a13-ajuda", "name": "Ajuda", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.304}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.304}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.304}]}, {"id": "a14-exportar-dados", "name": "Exportar meus dados", "states": [{"id": "com-historico", "label": "Com histórico", "ratio": 1.9893}, {"id": "gerando", "label": "Gerando", "ratio": 1.9733}, {"id": "pronto", "label": "Pronto", "ratio": 2.224}]}, {"id": "a15-assinatura", "name": "Assinatura", "states": [{"id": "ativa", "label": "Ativa", "ratio": 1.9733}, {"id": "cancelada", "label": "Cancelada", "ratio": 1.9733}, {"id": "em-teste", "label": "Em teste", "ratio": 1.9733}]}, {"id": "a16-biblioteca", "name": "Todos os exercícios", "states": [{"id": "escrever", "label": "Escrever", "ratio": 1.9733}, {"id": "respirar", "label": "Respirar", "ratio": 1.9733}, {"id": "todos", "label": "Todos", "ratio": 2.728}]}, {"id": "a17-ciclo-calendario", "name": "Calendário", "states": [{"id": "folicular", "label": "Folicular", "ratio": 2.8613}, {"id": "lutea", "label": "Lútea", "ratio": 2.8613}, {"id": "ovulacao", "label": "Ovulação", "ratio": 2.8613}]}, {"id": "a18-ciclo-padroes", "name": "Padrões do ciclo", "states": [{"id": "lutea", "label": "Lútea", "ratio": 2.064}, {"id": "ovulacao", "label": "Ovulação", "ratio": 2.064}, {"id": "passou-da-media", "label": "Passou da média", "ratio": 2.1067}]}, {"id": "a19-ciclo-nessa-fase", "name": "Nessa fase", "states": [{"id": "folicular", "label": "Folicular", "ratio": 2.9147}, {"id": "lutea", "label": "Lútea", "ratio": 2.8667}, {"id": "menstrual", "label": "Menstrual", "ratio": 3.0053}]}, {"id": "a20-canteiro", "name": "Meu canteiro", "states": [{"id": "com-sementes", "label": "Com sementes", "ratio": 2.9653}, {"id": "primeira-semana", "label": "Primeira semana", "ratio": 2.1227}, {"id": "cacto-carol", "label": "Cacto", "ratio": 2.9653}]}, {"id": "a21-regras-jardim", "name": "Regras do Jardim", "states": [{"id": "girassol-bia", "label": "Girassol", "ratio": 3.2267}]}, {"id": "a22-tour", "name": "Passeio pela casa", "states": [{"id": "boas-vindas", "label": "Boas-vindas", "ratio": 1.9733}, {"id": "ciclo", "label": "Ciclo", "ratio": 1.9733}, {"id": "ciclo-sem-ciclo", "label": "Ciclo sem ciclo", "ratio": 1.9733}]}, {"id": "a23-metodo", "name": "Seu método", "states": [{"id": "adesivo", "label": "Adesivo", "ratio": 2.008}, {"id": "ainda-nao-escolheu", "label": "Ainda não escolheu", "ratio": 3.1147}, {"id": "diu-hormonal", "label": "DIU hormonal", "ratio": 1.9733}]}]}, {"id": "empty-states", "title": "Primeiras vezes", "sub": "Como cada área se apresenta antes de ter histórico.", "screens": [{"id": "e1-home-firstuse", "name": "Início, primeiro dia", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 3.3227}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 3.3227}, {"id": "girassol-bia", "label": "Girassol", "ratio": 3.3227}]}, {"id": "e2-feedcleanse-intro", "name": "Limpar o feed, começo", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.608}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.608}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.608}]}, {"id": "e3-innervoice-first", "name": "Sua voz, primeira vez", "states": [{"id": "1-sessao", "label": "1ª sessão", "ratio": 2.224}, {"id": "2-em-diante", "label": "Da 2ª em diante", "ratio": 1.9733}, {"id": "cacto-carol", "label": "Cacto", "ratio": 2.224}]}, {"id": "e4-cycleshield-empty", "name": "Ciclo sem dados", "states": [{"id": "ativou-agora", "label": "Ativou agora", "ratio": 2.2507}, {"id": "primeiro-ciclo-registrado", "label": "Primeiro ciclo registrado", "ratio": 2.992}, {"id": "cacto-carol", "label": "Cacto", "ratio": 2.2507}]}, {"id": "e5-insights-empty", "name": "Padrões, ainda sem dados", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 3.1467}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 3.1467}, {"id": "girassol-bia", "label": "Girassol", "ratio": 3.1467}]}, {"id": "e6-grow-empty", "name": "Crescer, começo", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.8373}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.8827}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.8827}]}, {"id": "e7-jardim-empty", "name": "Canteiro vazio", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.232}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.232}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.2773}]}]}, {"id": "features", "title": "Momentos de cuidado", "sub": "Limpar o feed, sua voz, a proteção e as mensagens da planta.", "screens": [{"id": "f1-feedcleanse-day", "name": "Limpar o feed, dia a dia", "states": [{"id": "dia-1", "label": "Dia 1", "ratio": 2.2693}, {"id": "dia-2", "label": "Dia 2", "ratio": 2.16}, {"id": "dia-3", "label": "Dia 3", "ratio": 2.16}]}, {"id": "f2-feedcleanse-complete", "name": "Limpeza concluída", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.4613}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.5173}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.4613}]}, {"id": "f3-feedcleanse-pause", "name": "Pausa na limpeza", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.5813}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.5813}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.528}]}, {"id": "f4-innervoice-cbt", "name": "Sua voz, a conversa", "states": [{"id": "a-vida-editada", "label": "A vida editada", "ratio": 1.9733}, {"id": "diario-livre", "label": "Diário livre", "ratio": 1.9733}, {"id": "escreveu-algo-pesado", "label": "Escreveu algo pesado", "ratio": 1.9733}]}, {"id": "f5-innervoice-luteal", "name": "Sua voz nos dias que pesam", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 1.9733}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 1.9733}, {"id": "girassol-bia", "label": "Girassol", "ratio": 1.9733}]}, {"id": "f6-innervoice-history", "name": "Sua voz, histórico", "states": [{"id": "com-historico", "label": "Com histórico", "ratio": 2.552}, {"id": "sem-sessoes", "label": "Sem sessões", "ratio": 1.9733}, {"id": "cacto-carol", "label": "Cacto", "ratio": 2.552}]}, {"id": "f7-mirror-workmode", "name": "Modo trabalho", "states": [{"id": "timer-acabou", "label": "Tempo acabou", "ratio": 1.9733}, {"id": "timer-ativo", "label": "Tempo ativo", "ratio": 1.9733}]}, {"id": "f8-mirror-stats", "name": "A proteção, seus horários", "states": [{"id": "com-historico", "label": "Com histórico", "ratio": 4.4133}, {"id": "primeira-semana", "label": "Primeira semana", "ratio": 2.896}, {"id": "primeira-vez-dicas", "label": "Primeira vez com dicas", "ratio": 4.4133}]}, {"id": "f9-mirror-permission", "name": "Permissão da proteção", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.7467}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.7467}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.7467}]}, {"id": "f10-plant-message", "name": "Mensagem da planta", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 1.9733}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 1.9893}, {"id": "girassol-bia", "label": "Girassol", "ratio": 1.9893}]}, {"id": "f11-innervoice-sessao", "name": "Uma sessão", "states": [{"id": "cbt-completo", "label": "Reformular completo", "ratio": 2.2373}, {"id": "modo-luteal", "label": "Modo lútea", "ratio": 1.9733}, {"id": "cacto-carol", "label": "Cacto", "ratio": 2.2373}]}, {"id": "f12-jardim-semente", "name": "Nova semente", "states": [{"id": "escrita", "label": "Escrita", "ratio": 1.9733}, {"id": "plantada", "label": "Plantada", "ratio": 1.9733}, {"id": "vazia", "label": "Vazia", "ratio": 1.9733}]}, {"id": "f13-nova-reflexao", "name": "Nova reflexão", "states": [{"id": "escrita", "label": "Escrita", "ratio": 1.9733}, {"id": "guardada", "label": "Guardada", "ratio": 1.9733}, {"id": "vazia", "label": "Vazia", "ratio": 1.9733}]}]}, {"id": "trial", "title": "Assinatura", "sub": "O período de teste do começo ao fim, com cuidado.", "screens": [{"id": "t1-trial-active", "name": "Teste em andamento", "states": [{"id": "dia-10", "label": "Dia 10", "ratio": 2.8747}, {"id": "dia-13", "label": "Dia 13", "ratio": 2.8747}, {"id": "dia-5", "label": "Dia 5", "ratio": 2.8747}]}, {"id": "t2-trial-ending", "name": "Teste acabando", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 1.9733}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 1.9733}, {"id": "girassol-bia", "label": "Girassol", "ratio": 1.9733}]}, {"id": "t3-trial-expired", "name": "Teste encerrado", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.6107}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.6107}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.6107}]}, {"id": "t4-subscription-cancelled", "name": "Assinatura cancelada", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.0907}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.1467}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.0907}]}, {"id": "t5-winback", "name": "De volta", "states": [{"id": "cacto-carol", "label": "Cacto", "ratio": 2.728}, {"id": "cerejeira-dani", "label": "Cerejeira", "ratio": 2.784}, {"id": "girassol-bia", "label": "Girassol", "ratio": 2.728}]}]}, {"id": "celebrations", "title": "Comemorações", "sub": "As conquistas, sem placar.", "screens": [{"id": "c-celebrations", "name": "Comemorações", "states": [{"id": "c1-primeiro-check-in", "label": "Primeiro check-in", "ratio": 1.9733}, {"id": "c2-primeira-protecao", "label": "Primeira proteção", "ratio": 1.9733}, {"id": "c3-7-dias-seguidos", "label": "7 dias seguidos", "ratio": 1.9733}, {"id": "c4-planta-cresceu", "label": "Planta cresceu", "ratio": 2.2507}, {"id": "c5-resumo-do-mes", "label": "Resumo do mês", "ratio": 2.5387}, {"id": "c6-primeiro-jardim", "label": "Primeiro jardim", "ratio": 1.9733}]}]}, {"id": "notifications", "title": "Notificações", "sub": "O que chega na tela bloqueada, na voz da planta.", "screens": [{"id": "n-notifications", "name": "Notificações", "states": [{"id": "n1-manha", "label": "Manhã", "ratio": 1.9733}, {"id": "n2-pico", "label": "Pico", "ratio": 1.9733}, {"id": "n3-ciclo", "label": "Ciclo", "ratio": 1.9733}, {"id": "n4-planta", "label": "Planta", "ratio": 1.9733}, {"id": "n5-trial", "label": "Teste", "ratio": 1.9733}, {"id": "n6-bypass", "label": "Abriu mesmo assim", "ratio": 1.9733}]}]}, {"id": "widgets", "title": "Widgets", "sub": "A planta na tela inicial.", "screens": [{"id": "w-widgets", "name": "Widgets", "states": [{"id": "folicular", "label": "Folicular", "ratio": 1.9733}, {"id": "menstrual", "label": "Menstrual", "ratio": 1.9733}, {"id": "ovulacao", "label": "Ovulação", "ratio": 1.9733}, {"id": "passou-da-media", "label": "Passou da média", "ratio": 1.9733}, {"id": "sem-ciclo", "label": "Sem ciclo", "ratio": 1.9733}, {"id": "widget-2x2", "label": "Widget 2×2", "ratio": 1.9733}]}]}, {"id": "system", "title": "Quando algo dá errado", "sub": "Erros como momentos de cuidado.", "screens": [{"id": "sys-errors", "name": "Erros", "states": [{"id": "s3b-confirmar", "label": "Confirmar", "ratio": 1.9733}, {"id": "s3b-dados-nao-abrem", "label": "Dados não abrem", "ratio": 1.9733}, {"id": "s1-offline", "label": "Offline", "ratio": 1.9733}, {"id": "s2-pagamento", "label": "Pagamento", "ratio": 1.9733}, {"id": "s3-erro-generico", "label": "Erro genérico", "ratio": 1.9733}, {"id": "s4-push-negado", "label": "Push negado", "ratio": 1.9733}]}, {"id": "sys-modals", "name": "Confirmações", "states": [{"id": "m1-push", "label": "Push", "ratio": 1.9733}, {"id": "m2-deletar", "label": "Apagar", "ratio": 1.9733}, {"id": "m3-cancelar", "label": "Cancelar", "ratio": 1.9733}, {"id": "m5-trabalho", "label": "Trabalho", "ratio": 1.9733}, {"id": "m6-pausar", "label": "Pausar", "ratio": 1.9733}, {"id": "m8-tom", "label": "Tom da planta", "ratio": 1.9733}]}]}];
+let platform = 'ios';
+try { if (localStorage.getItem('brota-platform') === 'android') platform = 'android'; } catch (e) {}
+
+const flat = [];
+DATA.forEach(f => f.screens.forEach(s => flat.push({ flow: f, screen: s })));
+const chosen = {};   // screen id -> state index
+const src = (scr, st) => `img/${platform}/${scr}__${st}.webp`;
+
+const CLIPS = [
+  ['o09', 'A planta aparece', 'A semente cai na terra e a promessa aparece.', 352 / 772],
+  ['o10', 'A semente brota', 'O primeiro broto sai da terra.', 352 / 772],
+  ['o11', 'Qual flor ela vai ser', 'As cinco plantas, vivas, antes da escolha.', 352 / 772],
+  ['o16', 'Montando seu plano', 'Ela pensa enquanto o plano é montado, do começo ao fim do anel.', 358 / 718],
+  ['o18', 'Assinatura', 'A semente comemora o começo.', 375 / 740],
+  ['p1', 'A planta nasce', 'O broto nasce e a jornada começa.', 375 / 740],
+  ['a1', 'Início', 'Bom dia: ela respira e acena para você.', 375 / 740],
+  ['a2', 'A proteção em ação', 'Antes de abrir a rede, ela pede cuidado. Você rega, ela agradece e cresce.', 375 / 740],
+  ['a7', 'Respirar', 'Inspira, segura, solta. A expiração é sempre a mais longa.', 375 / 740],
+  ['a9', 'Crescer', 'A missão do dia e a jornada da planta.', 375 / 740],
+  ['c1', 'Primeiro check-in', 'A primeira conquista, com estrela e confete.', 375 / 740],
+  ['c4', 'Sua planta cresceu', 'Ela cresce primeiro; o resto da tela vem depois.', 375 / 740],
+];
+const reel = document.getElementById('reel');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+CLIPS.forEach(([id, name, line, ar]) => {
+  const el = document.createElement('article'); el.className = 'clip';
+  el.innerHTML = `<div class="device"><span class="glass" style="--ar:${ar}"><video muted loop playsinline preload="none" poster="anim/${id}.jpg" aria-label="${name}, animação"${reduce ? ' controls' : ''}><source src="anim/${id}.mp4" type="video/mp4"></video></span></div><h3>${name}</h3><p>${line}</p>`;
+  reel.appendChild(el);
+});
+// play only what is on screen (and nothing on its own under Reduce Motion)
+if (!reduce && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause();
+  }), { threshold: 0.35 });
+  reel.querySelectorAll('video').forEach(v => io.observe(v));
+}
+
+const facts = document.getElementById('facts');
+const nStates = flat.reduce((n, x) => n + x.screen.states.length, 0);
+facts.innerHTML = `<span><b>${flat.length}</b> telas</span><span><b>${CLIPS.length}</b> animações</span><span><b>${nStates}</b> estados</span><span><b>${DATA.length}</b> fluxos</span><span><b>5</b> plantas</span>`;
+
+const jump = document.getElementById('jump');
+{ const a = document.createElement('a'); a.href = '#animacoes'; a.textContent = 'Animações'; jump.appendChild(a); }
+const flows = document.getElementById('flows');
+DATA.forEach(f => {
+  const a = document.createElement('a'); a.href = '#' + f.id; a.textContent = f.title; jump.appendChild(a);
+  const sec = document.createElement('section'); sec.className = 'flow'; sec.id = f.id;
+  sec.innerHTML = `<header><span class="count">${f.screens.length} ${f.screens.length === 1 ? 'tela' : 'telas'}</span><h2>${f.title}</h2><p>${f.sub}</p></header><div class="grid"></div>`;
+  const grid = sec.querySelector('.grid');
+  f.screens.forEach(s => {
+    chosen[s.id] = 0;
+    const card = document.createElement('article'); card.className = 'screen'; card.dataset.id = s.id;
+    const isOnb = f.id === 'onboarding';
+    card.innerHTML = `<button class="device" type="button" aria-label="Abrir ${s.name}"><span class="glass" style="--ar:${isOnb ? 352 / 772 : 375 / 740}"><img loading="lazy" decoding="async" alt="${s.name}, ${s.states[0].label}"></span></button><h3>${s.name}</h3>`;
+    if (s.states.length > 1) {
+      const row = document.createElement('div'); row.className = 'states';
+      s.states.forEach((st, i) => {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = st.label; b.setAttribute('aria-pressed', i === 0);
+        b.addEventListener('click', () => { chosen[s.id] = i; paintCard(card, s); });
+        row.appendChild(b);
+      });
+      card.appendChild(row);
+    }
+    card.querySelector('.device').addEventListener('click', () => openViewer(flat.findIndex(x => x.screen.id === s.id)));
+    grid.appendChild(card);
+    paintCard(card, s);
+  });
+  flows.appendChild(sec);
+});
+
+function paintCard(card, s) {
+  const i = chosen[s.id];
+  const img = card.querySelector('img');
+  img.src = src(s.id, s.states[i].id);
+  img.alt = `${s.name}, ${s.states[i].label}`;
+  card.querySelector('.device').classList.toggle('android', platform === 'android');
+  card.querySelectorAll('.states button').forEach((b, k) => b.setAttribute('aria-pressed', k === i));
+}
+
+function setPlatform(p) {
+  platform = p;
+  try { localStorage.setItem('brota-platform', p); } catch (e) {}
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === p));
+  document.querySelectorAll('.screen').forEach(card => paintCard(card, flat.find(x => x.screen.id === card.dataset.id).screen));
+  if (!viewer.hidden) paintViewer();
+}
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => setPlatform(b.dataset.p)));
+
+/* viewer */
+const viewer = document.getElementById('viewer');
+let at = 0, lastFocus = null;
+function openViewer(i) {
+  lastFocus = document.activeElement;
+  at = i; viewer.hidden = false; document.body.style.overflow = 'hidden';
+  paintViewer();
+  document.getElementById('v-close').focus();
+}
+function closeViewer() {
+  viewer.hidden = true; document.body.style.overflow = '';
+  if (location.hash.startsWith('#tela-')) history.replaceState(null, '', location.pathname + location.search);
+  if (lastFocus) lastFocus.focus();
+}
+function paintViewer() {
+  const { flow, screen } = flat[at];
+  const i = chosen[screen.id];
+  document.getElementById('v-name').textContent = screen.name;
+  document.getElementById('v-pos').textContent = `${flow.title} · ${at + 1} de ${flat.length}`;
+  const img = document.getElementById('v-img');
+  img.src = src(screen.id, screen.states[i].id);
+  img.alt = `${screen.name}, ${screen.states[i].label}`;
+  document.getElementById('v-scroll').scrollTop = 0;
+  const row = document.getElementById('v-states'); row.innerHTML = '';
+  if (screen.states.length > 1) screen.states.forEach((st, k) => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = st.label; b.setAttribute('aria-pressed', k === i);
+    b.addEventListener('click', () => {
+      chosen[screen.id] = k; paintViewer();
+      const card = document.querySelector(`.screen[data-id="${screen.id}"]`); if (card) paintCard(card, screen);
+    });
+    row.appendChild(b);
+  });
+  history.replaceState(null, '', '#tela-' + screen.id);
+}
+const step = d => { at = (at + d + flat.length) % flat.length; paintViewer(); };
+document.getElementById('v-prev').addEventListener('click', () => step(-1));
+document.getElementById('v-next').addEventListener('click', () => step(1));
+document.getElementById('v-close').addEventListener('click', closeViewer);
+viewer.addEventListener('click', e => { if (e.target === viewer) closeViewer(); });
+document.addEventListener('keydown', e => {
+  if (viewer.hidden) return;
+  if (e.key === 'Escape') closeViewer();
+  else if (e.key === 'ArrowRight') step(1);
+  else if (e.key === 'ArrowLeft') step(-1);
+});
+let sx = null, sy = null;
+viewer.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+viewer.addEventListener('touchend', e => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+  sx = sy = null;
+});
+
+setPlatform(platform);
+const h = location.hash.replace('#tela-', '');
+if (location.hash.startsWith('#tela-')) { const i = flat.findIndex(x => x.screen.id === h); if (i >= 0) openViewer(i); }
+</script>
+
+</body>
+</html>
